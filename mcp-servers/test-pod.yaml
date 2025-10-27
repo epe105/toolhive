@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubernetes-mcp-server-test
+  namespace: mcp-servers
+spec:
+  serviceAccountName: mcp-admin-sa
+  containers:
+  - name: kubernetes-mcp-server
+    image: image-registry.openshift-image-registry.svc:5000/mcp-servers/kubernetes-mcp-server:latest
+    args:
+      - "--port=8080"
+      - "--log-level=2"
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+  restartPolicy: Never
