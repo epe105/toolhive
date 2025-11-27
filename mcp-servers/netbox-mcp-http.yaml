@@ -11,6 +11,17 @@ spec:
   permissionProfile:
     type: builtin
     name: network
+  oidcConfig:
+    type: inline
+    resourceUrl: http://netbox-mcp-http-toolhive-auth-mcp-servers.apps.rhocp-cluster.presidiolab.local/mcp
+    inline:
+      issuer: https://presidio-mcp.us.auth0.com/
+      jwksUrl: https://presidio-mcp.us.auth0.com/.well-known/jwks.json
+      audience: infragenie-mcp
+      clientId: 7mnEmIdqSJ6iZpUMq1rwTkNdHs0gPNhN
+      clientSecretRef:
+        name: auth0-oidc-credentials
+        key: client-secret
   resources:
     limits:
       cpu: "100m"
