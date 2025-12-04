@@ -1,0 +1,34 @@
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: vsphere-mcp-http-toolhive
+  namespace: mcp-servers
+spec:
+  image: image-registry.openshift-image-registry.svc:5000/mcp-servers/vsphere-mcp
+  transport: streamable-http
+  port: 3012
+  targetPort: 3012
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+  secrets:
+    - name: vsphere-credentials
+      key: vsphere-username
+      targetEnvName: VSPHERE_USERNAME
+    - name: vsphere-credentials
+      key: vsphere-password
+      targetEnvName: VSPHERE_PASSWORD        
+  env:
+    - name: VSPHERE_HOST
+      value: "orl-vcenter6.presidiolab.local"
+    - name: DISABLE_JWT_AUTH
+      value: "true"
+
+   

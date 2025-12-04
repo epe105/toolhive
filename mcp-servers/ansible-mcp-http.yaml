@@ -18,3 +18,10 @@ spec:
     requests:
       cpu: "50m"
       memory: "64Mi"
+  secrets:
+    - name: aap-credentials
+      key: aap-url
+      targetEnvName: AAP_URL
+    - name: aap-credentials
+      key: aap-token
+      targetEnvName: AAP_TOKEN      
