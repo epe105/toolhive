@@ -1,0 +1,37 @@
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: gitlab-mcp-http-toolhive
+  namespace: mcp-servers
+spec:
+  image: image-registry.openshift-image-registry.svc:5000/mcp-servers/gitlab-mcp
+  transport: streamable-http
+  port: 3002
+  targetPort: 3002
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+  secrets:
+    - name: gitlab-credentials
+      key: gitlab-pat
+      targetEnvName: GITLAB_PERSONAL_ACCESS_TOKEN  
+  env:
+    - name: GITLAB_API_URL
+      value: "https://gitlab.presidio.com/api/v4"
+    - name: GITLAB_READ_ONLY_MODE
+      value: "false"
+    - name: STREAMABLE_HTTP
+      value: "true"
+    - name: USE_GITLAB_WIKI
+      value: "true"
+    - name: USE_MILESTONE
+      value: "true"
+    - name: USE_PIPELINE
+      value: "true"
