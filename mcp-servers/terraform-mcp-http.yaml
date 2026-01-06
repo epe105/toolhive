@@ -1,0 +1,31 @@
+apiVersion: toolhive.stacklok.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: terraform-mcp-http-toolhive
+  namespace: mcp-servers
+spec:
+  image: image-registry.openshift-image-registry.svc:5000/mcp-servers/terraform-mcp
+  transport: streamable-http
+  port: 8080
+  targetPort: 8080
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+  secrets:
+    - name: terraform-credentials
+      key: terraform-token
+      targetEnvName: TFE_TOKEN 
+  env:
+    - name: TRANSPORT_HOST
+      value: "0.0.0.0"
+    - name: STREAMABLE_HTTP
+      value: "true"
+    - name: ENABLE_TF_OPERATIONS
+      value: "true"
